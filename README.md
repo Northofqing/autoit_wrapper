@@ -1,3 +1,12 @@
+#Examples
+```rust
+fn title(&self) -> String {
+    AutoIt::init();
+    AutoIt::win_get_title_by_handle(self.h_wnd).unwrap()
+}
+
+```
+
 # AutoIT All API
 ```C++
 AU3_API void WINAPI AU3_Init(void);
@@ -132,3 +141,4 @@ AU3_API int WINAPI AU3_WinWaitNotActiveByHandle(HWND hWnd, int nTimeout = 0);
 
 
 ### [only windows frameworke](https://www.autoitscript.com/trac/autoit/wiki/AutoItNotOnToDoList)
+
