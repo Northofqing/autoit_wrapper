@@ -1,6 +1,7 @@
 [package]
 name = "autoit_wrapper"
 version = "0.1.0"
+description = "call autoit script in windows"
 edition = "2021"
 keywords = ["autoit3", "autoitx"]
 repository = "https://github.com/Northofqing/autoit_wrapper"
