@@ -3,6 +3,8 @@ name = "autoit_wrapper"
 version = "0.1.0"
 edition = "2021"
 keywords = ["autoit3", "autoitx"]
+repository = "https://github.com/Northofqing/autoit_wrapper"
+license = "Apache-2.0"
 
 [dependencies]
 libloading = "0.8"
