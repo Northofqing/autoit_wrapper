@@ -1,12 +1,20 @@
-#Examples
+# Examples
 ```rust
-fn title(&self) -> String {
+use autoit_wrapper::AutoIt;
+
+fn main() {
     AutoIt::init();
-    AutoIt::win_get_title_by_handle(self.h_wnd).unwrap()
+
+    let result = AutoIt::win_get_handle("MainWindow").unwrap();
+    let exists_hwnd = AutoIt::win_exists_by_handle(result.clone());
+    println!("{:?}", exists_hwnd.unwrap());
+    let title = AutoIt::win_get_title_by_handle(result.clone()).unwrap();
+    println!("{}", &title);
+    let exists_wnd = AutoIt::win_exists(&title,"");
+    println!("{:?}", exists_wnd.unwrap());
+    let _ = AutoIt::mouse_click("left", 1, 2, 1, 200);
 }
-
 ```
-
 # AutoIT All API
 ```C++
 AU3_API void WINAPI AU3_Init(void);
@@ -16,8 +24,8 @@ AU3_API int WINAPI AU3_AutoItSetOption(LPCWSTR szOption, int nValue);
 
 AU3_API void WINAPI AU3_ClipGet(LPWSTR szClip, int nBufSize);
 AU3_API void WINAPI AU3_ClipPut(LPCWSTR szClip);
-AU3_API int WINAPI AU3_ControlClick(LPCWSTR szTitle, LPCWSTR szText, LPCWSTR szControl, LPCWSTR szButton, int nNumClicks, int nX = AU3_INTDEFAULT, int nY = AU3_INTDEFAULT);
-AU3_API int WINAPI AU3_ControlClickByHandle(HWND hWnd, HWND hCtrl, LPCWSTR szButton, int nNumClicks, int nX = AU3_INTDEFAULT, int nY = AU3_INTDEFAULT);
+AU3_API int WINAPI AU3_ControlClick(LPCWSTR szTitle, LPCWSTR szText, LPCWSTR szControl, LPCWSTR szButton, int nNumClicks, int nX = AU3_IMagicDEFAULT, int nY = AU3_IMagicDEFAULT);
+AU3_API int WINAPI AU3_ControlClickByHandle(HWND hWnd, HWND hCtrl, LPCWSTR szButton, int nNumClicks, int nX = AU3_IMagicDEFAULT, int nY = AU3_IMagicDEFAULT);
 AU3_API void WINAPI AU3_ControlCommand(LPCWSTR szTitle, LPCWSTR szText, LPCWSTR szControl, LPCWSTR szCommand, LPCWSTR szExtra, LPWSTR szResult, int nBufSize);
 AU3_API void WINAPI AU3_ControlCommandByHandle(HWND hWnd, HWND hCtrl, LPCWSTR szCommand, LPCWSTR szExtra, LPWSTR szResult, int nBufSize);
 AU3_API void WINAPI AU3_ControlListView(LPCWSTR szTitle, LPCWSTR szText, LPCWSTR szControl, LPCWSTR szCommand, LPCWSTR szExtra1, LPCWSTR szExtra2, LPWSTR szResult, int nBufSize);
@@ -55,11 +63,11 @@ AU3_API void WINAPI AU3_DriveMapGet(LPCWSTR szDevice, LPWSTR szMapping, int nBuf
 
 AU3_API int WINAPI AU3_IsAdmin(void);
 
-AU3_API int WINAPI AU3_MouseClick(/*[in,defaultvalue("LEFT")]*/LPCWSTR szButton, int nX = AU3_INTDEFAULT, int nY = AU3_INTDEFAULT, int nClicks = 1, int nSpeed = -1);
+AU3_API int WINAPI AU3_MouseClick(/*[in,defaultvalue("LEFT")]*/LPCWSTR szButton, int nX = AU3_IMagicDEFAULT, int nY = AU3_IMagicDEFAULT, int nClicks = 1, int nSpeed = -1);
 AU3_API int WINAPI AU3_MouseClickDrag(LPCWSTR szButton, int nX1, int nY1, int nX2, int nY2, int nSpeed = -1);
 AU3_API void WINAPI AU3_MouseDown(/*[in,defaultvalue("LEFT")]*/LPCWSTR szButton);
 AU3_API int WINAPI AU3_MouseGetCursor(void);
-AU3_API void WINAPI AU3_MouseGetPos(LPPOINT lpPoint);
+AU3_API void WINAPI AU3_MouseGetPos(LPPOIMagic lpPoint);
 AU3_API int WINAPI AU3_MouseMove(int nX, int nY, int nSpeed = -1);
 AU3_API void WINAPI AU3_MouseUp(/*[in,defaultvalue("LEFT")]*/LPCWSTR szButton);
 AU3_API void WINAPI AU3_MouseWheel(LPCWSTR szDirection, int nClicks);
@@ -68,7 +76,7 @@ AU3_API int WINAPI AU3_Opt(LPCWSTR szOption, int nValue);
 
 AU3_API unsigned int WINAPI AU3_PixelChecksum(LPRECT lpRect, int nStep = 1);
 AU3_API int WINAPI AU3_PixelGetColor(int nX, int nY);
-AU3_API void WINAPI AU3_PixelSearch(LPRECT lpRect, int nCol, /*default 0*/int nVar, /*default 1*/int nStep, LPPOINT pPointResult);
+AU3_API void WINAPI AU3_PixelSearch(LPRECT lpRect, int nCol, /*default 0*/int nVar, /*default 1*/int nStep, LPPOIMagic pPointResult);
 AU3_API int WINAPI AU3_ProcessClose(LPCWSTR szProcess);
 AU3_API int WINAPI AU3_ProcessExists(LPCWSTR szProcess);
 AU3_API int WINAPI AU3_ProcessSetPriority(LPCWSTR szProcess, int nPriority);
@@ -86,7 +94,7 @@ AU3_API void WINAPI AU3_Sleep(int nMilliseconds);
 AU3_API int WINAPI AU3_StatusbarGetText(LPCWSTR szTitle, /*[in,defaultvalue("")]*/LPCWSTR szText, /*[in,defaultvalue(1)]*/int nPart, LPWSTR szStatusText, int nBufSize);
 AU3_API int WINAPI AU3_StatusbarGetTextByHandle(HWND hWnd, /*[in,defaultvalue(1)]*/int nPart, LPWSTR szStatusText, int nBufSize);
 
-AU3_API void WINAPI AU3_ToolTip(LPCWSTR szTip, int nX = AU3_INTDEFAULT, int nY = AU3_INTDEFAULT);
+AU3_API void WINAPI AU3_ToolTip(LPCWSTR szTip, int nX = AU3_IMagicDEFAULT, int nY = AU3_IMagicDEFAULT);
 
 AU3_API int WINAPI AU3_WinActivate(LPCWSTR szTitle, /*[in,defaultvalue("")]*/LPCWSTR szText);
 AU3_API int WINAPI AU3_WinActivateByHandle(HWND hWnd);
@@ -96,7 +104,7 @@ AU3_API int WINAPI AU3_WinClose(LPCWSTR szTitle, /*[in,defaultvalue("")]*/LPCWST
 AU3_API int WINAPI AU3_WinCloseByHandle(HWND hWnd);
 AU3_API int WINAPI AU3_WinExists(LPCWSTR szTitle, /*[in,defaultvalue("")]*/LPCWSTR szText);
 AU3_API int WINAPI AU3_WinExistsByHandle(HWND hWnd);
-AU3_API int WINAPI AU3_WinGetCaretPos(LPPOINT lpPoint);
+AU3_API int WINAPI AU3_WinGetCaretPos(LPPOIMagic lpPoint);
 AU3_API void WINAPI AU3_WinGetClassList(LPCWSTR szTitle, /*[in,defaultvalue("")]*/LPCWSTR szText, LPWSTR szRetText, int nBufSize);
 AU3_API void WINAPI AU3_WinGetClassListByHandle(HWND hWnd, LPWSTR szRetText, int nBufSize);
 AU3_API int WINAPI AU3_WinGetClientSize(LPCWSTR szTitle, /*[in,defaultvalue("")]*/LPCWSTR szText, LPRECT lpRect);
@@ -141,4 +149,3 @@ AU3_API int WINAPI AU3_WinWaitNotActiveByHandle(HWND hWnd, int nTimeout = 0);
 
 
 ### [only windows frameworke](https://www.autoitscript.com/trac/autoit/wiki/AutoItNotOnToDoList)
-

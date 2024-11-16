@@ -1,24 +1,14 @@
-#![allow(
- dead_code,
-//     unused_variables,
-//     unused_attributes,
-//     unused_imports,
-//     non_snake_case,
-//     unused_assignments,
-//     unused_must_use,
-//     unused_mut,
-//     unconditional_recursion,
-//     unused_unsafe,
-  non_camel_case_types
- )]
-mod autoit;
-mod autoit_error;
+#![allow(dead_code, non_camel_case_types)]
+pub mod autoit;
+pub mod autoit_error;
+
 #[macro_use]
 extern crate lazy_static;
 
 use crate::autoit_error::AutoItError;
 use crate::autoit_error::AutoItResult;
 use libloading::{Library, Symbol};
+
 use std::sync::Mutex;
 use windows::core::*;
 use windows::Win32::Foundation::*;
@@ -30,7 +20,7 @@ struct AutoItCore {
 }
 impl AutoItCore {
     fn new() -> AutoItResult<Self> {
-        let lib = unsafe { Library::new("AutoItX3_x64.dll").unwrap() };
+        let lib = unsafe { Library::new("lib/AutoItX3_x64.dll")? };
         let mut autoit = AutoItCore {
             lib,
             initialized: false,
@@ -82,7 +72,7 @@ impl AutoIt {
 
     fn to_wide_string(s: &str) -> Vec<u16> {
         s.encode_utf16().chain(std::iter::once(0)).collect()
-    } 
+    }
     // 窗口操作 - 同时提供字符串和句柄两种方式
     pub fn win_exists(title: &str, text: &str) -> AutoItResult<bool> {
         let auto_it = Self::get()?;
